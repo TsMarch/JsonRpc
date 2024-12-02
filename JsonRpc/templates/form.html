@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON-RPC API Form</title>
+</head>
+<body>
+    <h1>Отправка запроса JSON-RPC</h1>
+    <form method="post" action="/api/jsonrpc/">
+        {% csrf_token %}
+        <label for="method">Метод:</label>
+        <input type="text" id="method" name="method" required><br><br>
+
+        <label for="params">Параметры (в формате JSON):</label><br>
+        <textarea id="params" name="params" required></textarea><br><br>
+
+        <button type="submit">Отправить</button>
+    </form>
+
+    <h2>Ответ:</h2>
+    <pre id="response">{{ response|default:"" }}</pre>
+    <pre id="error">{{ error|default:"" }}</pre>
+</body>
+</html>

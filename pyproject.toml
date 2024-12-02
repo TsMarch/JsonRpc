@@ -16,6 +16,14 @@ black = "^24.10.0"
 flake8 = "^7.1.1"
 isort = "^5.13.2"
 
+[tool.black]
+line-length = 120
+target-version = ['py311']
+
+[tool.isort]
+profile = "black"
+skip = ["JsonRpc/config/urls.py"]
+
 
 [build-system]
 requires = ["poetry-core"]
