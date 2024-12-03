@@ -16,7 +16,7 @@ class JsonRpcView(APIView):
 
     def post(self, request):
         method = request.data.get("method")
-        params = request.data.get("params", '')
+        params = request.data.get("params", "")
         params = json.loads(params) if params else []
         ssl_context = SSLContextFactory()
         client = JsonRpcClient("https://slb.medv.ru/api/v2/", ssl_context.create_ssl_context())
@@ -25,4 +25,4 @@ class JsonRpcView(APIView):
             response = client.call_api_method(method, params)
             return JsonResponse(response)
         except Exception as e:
-            return JsonResponse({'error': e}, status=500)
+            return JsonResponse({"error": e}, status=500)
