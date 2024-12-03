@@ -16,10 +16,12 @@ Including another URLconf
 """
 
 import api_client.urls
+import error_handler.urls
 from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("api_client.urls")),
+    path("api/errors/", include("error_handler.urls"))
 ]

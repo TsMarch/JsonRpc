@@ -3,24 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON-RPC Client</title>
+    <title>Test Assignment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: #f8f8f8;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
 </head>
 <body>
-<h1>JSON-RPC Client</h1>
+<h1></h1>
     <form method="post">
         {% csrf_token %}
         <label for="method">Method:</label>
         <input type="text" id="method" name="method" required>
         <br>
+        <br>
         <label for="params">Parameters (JSON):</label>
         <textarea id="params" name="params"></textarea>
         <br>
-        <button type="submit">Call Method</button>
+        <br>
+        <button type="submit">Submit</button>
     </form>
 
-    {% if response %}
-        <h2>Response:</h2>
-        <pre>{{ response|safe }}</pre>
+    {% if result %}
+        <h2>Result:</h2>
+        <pre>{{ result|safe }}</pre>
+    {% endif %}
+
+    {% if error %}
+        <h2>Error:</h2>
+        <pre>{{ error }}</pre>
     {% endif %}
 </body>
 </html>

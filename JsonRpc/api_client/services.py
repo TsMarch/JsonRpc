@@ -2,19 +2,13 @@ import json
 import os
 import ssl
 import urllib.request
+
 from django.conf import settings
-from abc import ABC, abstractmethod
 
 
-class SSLContextInterface(ABC):
-    @abstractmethod
-    def create_ssl_context(self):
-        pass
-
-
-class SSLContextFactory(SSLContextInterface):
-
-    def create_ssl_context(self):
+class SSLContextFactory:
+    @staticmethod
+    def create_ssl_context():
         context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
         with open("temp_cert.pem", "w") as cert_file:
             cert_file.write(settings.CRT)
@@ -29,21 +23,17 @@ class SSLContextFactory(SSLContextInterface):
 
 
 class JsonRpcClient:
-    def __init__(self, endpoint, ssl_context: SSLContextInterface):
+    def __init__(self, endpoint):
         self.endpoint = endpoint
-        self.ssl_context = ssl_context
 
     def call_api_method(self, method, params=None):
         params = params or []
         payload = {"jsonrpc": "2.0", "method": method, "params": params, "id": 1}
-
+        ssl_context = SSLContextFactory.create_ssl_context()
         req = urllib.request.Request(
             self.endpoint, data=json.dumps(payload).encode("utf-8"), headers={"Content-type": "application/json"}
         )
-
-        try:
-            with urllib.request.urlopen(req, context=self.ssl_context) as response:
-                response_data = response.read()
-                return json.loads(response_data)
-        except Exception as e:
-            return {"error": str(e)}
+        with urllib.request.urlopen(req, context=ssl_context) as response:
+            response_data = response.read()
+            json_response = json.loads(response_data)
+            return json_response
