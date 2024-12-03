@@ -1,25 +1,26 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON-RPC API Form</title>
+    <title>JSON-RPC Client</title>
 </head>
 <body>
-    <h1>Отправка запроса JSON-RPC</h1>
-    <form method="post" action="/api/jsonrpc/">
+<h1>JSON-RPC Client</h1>
+    <form method="post">
         {% csrf_token %}
-        <label for="method">Метод:</label>
-        <input type="text" id="method" name="method" required><br><br>
-
-        <label for="params">Параметры (в формате JSON):</label><br>
-        <textarea id="params" name="params" required></textarea><br><br>
-
-        <button type="submit">Отправить</button>
+        <label for="method">Method:</label>
+        <input type="text" id="method" name="method" required>
+        <br>
+        <label for="params">Parameters (JSON):</label>
+        <textarea id="params" name="params"></textarea>
+        <br>
+        <button type="submit">Call Method</button>
     </form>
 
-    <h2>Ответ:</h2>
-    <pre id="response">{{ response|default:"" }}</pre>
-    <pre id="error">{{ error|default:"" }}</pre>
+    {% if response %}
+        <h2>Response:</h2>
+        <pre>{{ response|safe }}</pre>
+    {% endif %}
 </body>
 </html>
